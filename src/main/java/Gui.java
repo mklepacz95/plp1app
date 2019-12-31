@@ -30,7 +30,7 @@ public class Gui extends JPanel implements ActionListener {
                 if (chooser.showOpenDialog(getParent()) == JFileChooser.APPROVE_OPTION) {
                     unzipFiles.unzip(chooser.getSelectedFile().getPath());
                     System.out.println("Wybrano: " + chooser.getSelectedFile());
-                    xmlProcessor.newDeleteWskazaniaFromSorl();
+                    xmlProcessor.deleteNodeFromSolrXml();
                 }
                 else System.out.println("Nie wybrano");
             }

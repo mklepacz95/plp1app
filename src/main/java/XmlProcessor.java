@@ -186,7 +186,7 @@ public class XmlProcessor {
             File file = new File("file/tmpSolr.xml");
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
-            File output = new File("file/bezWskazanPL.xml");
+            File output = new File("file/bezWskazanPL_v20191105.xml");
             PrintWriter pw = new PrintWriter(output);
 
             Document doc = builder.parse(file);
@@ -197,8 +197,20 @@ public class XmlProcessor {
             int size = nodeList.getLength();
             for(int i = 0; i< size;i++) {
                 Node n = nodeList.item(i);
+                Element e = (Element) n.getParentNode();
                 if(n.getTextContent().equals("PL")) {
-                    System.out.println(n.getTextContent() + " " n.getParentNode().getNodeName());
+                    NodeList wskazania = e.getElementsByTagName("wskazania");
+                    int wskazaniaSize = wskazania.getLength();
+                    System.out.println(wskazaniaSize);
+                    for(int j = 0; j<wskazaniaSize;j++) {
+                        Node wskazniaNode = wskazania.item(j);
+                        if(wskazniaNode != null) {
+                            Node wskazaniaParnet = wskazniaNode.getParentNode();
+                            wskazaniaParnet.removeChild(wskazniaNode);
+                            Node newWskazaniaNode = doc.createElement("wskazania");
+                            wskazaniaParnet.appendChild(newWskazaniaNode);
+                        }
+                    }
                 }
                 /*
                 Node n1 = n.getParentNode().getParentNode();
